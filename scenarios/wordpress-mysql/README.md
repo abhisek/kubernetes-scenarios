@@ -1,4 +1,4 @@
-# Worodpress and MySQL
+# Wordpress and MySQL
 
 This setup requires an NFS storage that backs `PersistentVolume`. On GKE, this
 can be done with Firestore.
