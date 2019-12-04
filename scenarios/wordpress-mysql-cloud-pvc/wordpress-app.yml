@@ -1,0 +1,37 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  creationTimestamp: null
+  labels:
+    run: wordpress
+    app: wordpress
+    tier: frontend
+  name: wordpress
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      run: wordpress
+  template:
+    metadata:
+      labels:
+        run: wordpress
+        app: wordpress
+    spec:
+      volumes:
+        - name: wordpress-html
+          persistentVolumeClaim:
+            claimName: wordpress-persistent-storage
+      containers:
+      - env:
+        - name: WORDPRESS_DB_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: mysql-pass
+              key: password
+        image: wordpress
+        name: wordpress
+        volumeMounts:
+          - mountPath: /var/www/html
+            name: wordpress-html
+
