@@ -31,6 +31,8 @@ spec:
               key: password
         image: mysql:5.7
         name: mysql
+        args:
+          - "--ignore-db-dir=lost+found"
         volumeMounts:
           - mountPath: /var/lib/mysql
             name: mysql-pv-storage
