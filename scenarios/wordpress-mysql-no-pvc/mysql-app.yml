@@ -1,0 +1,36 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    run: mysql
+    app: mysql
+    tier: db
+  name: mysql
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      run: mysql
+  strategy: {}
+  template:
+    metadata:
+      labels:
+        run: mysql
+    spec:
+      volumes:
+      - name: mysql-pv-storage
+        emptyDir: {}
+      containers:
+      - env:
+        - name: MYSQL_ROOT_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: mysql-pass
+              key: password
+        image: mysql:5.7
+        name: mysql
+        volumeMounts:
+          - mountPath: /var/lib/mysql
+            name: mysql-pv-storage
+
+
